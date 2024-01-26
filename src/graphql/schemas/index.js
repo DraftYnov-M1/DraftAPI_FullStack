@@ -13,6 +13,9 @@ const typeDefs = `
             sendMessage : Response!
             getArticles: [Article]!
             getArticle(id: ID!): Article
+            deleteArticle(id: ID!): Article
+            updateArticle(id: ID!, title: String!, description: String!, date: String!): Article!   
+            createArticle(title: String!, description: String!, date: String!): Article!
         }
     `;
 

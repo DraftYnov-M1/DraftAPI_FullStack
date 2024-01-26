@@ -1,29 +1,47 @@
+const database  = require("../../models");
+
 const resolvers = {
     Query: {
         sendMessage: () => {
             return {
-                // succes: true,
+                succes: true,
                 message: "Hello world"
             }
         },
-        getArticles: (parent, args, context, info) => {
-            return [
-                {
-                    id: 1,
-                    title: "Article 1",
-                    description: "Description de l'article 1",
-                    date: "2021-01-01"
-                }
-            ]
+        getArticles: async (root, args, { models }) => {
+            return await database.Article.findAll();
         },
-        getArticle: (parent, args, context, info) => {
-            console.log(args);
-            return {
-                id: 1,
-                title: "Article 1",
-                description: "Description de l'article 1",
-                date: "2021-01-01"
-            };
+
+        getArticle: async (root, args, { models }) => {
+            return await database.Article.findByPk(args.id);
+        },
+
+        deleteArticle: async (root, args, { models }) => {
+            return await database.Article.destroy({
+                where: {
+                    id: args.id
+                }
+            });
+        },
+
+        updateArticle: async (root, args, { models }) => {
+            return await database.Article.update({
+                title: args.title,
+                description: args.description,
+                date: args.date
+            }, {
+                where: {
+                    id: args.id
+                }
+            });
+        },
+
+        createArticle: async (root, args, { models }) => {
+            return await database.Article.create({
+                title: args.title,
+                description: args.description,
+                date: args.date
+            });
         }
     }
 }

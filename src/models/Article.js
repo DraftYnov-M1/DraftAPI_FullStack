@@ -4,7 +4,9 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.STRING,
         date: DataTypes.DATE,
     }, {
-        timestamps: false
+        timestamps: false,
+        modelName: 'Article', // specify the singular model name
+        tableName: 'articles',
     });
     return Article;
 };
