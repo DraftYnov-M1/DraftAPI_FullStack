@@ -10,7 +10,6 @@ const typeDefs = `
             message: String!
         }
         type Query {
-            sendMessage : Response!
             getArticles: [Article]!
             getArticle(id: ID!): Article
         }
