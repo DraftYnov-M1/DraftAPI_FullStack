@@ -14,19 +14,7 @@ const initApplication = async() => {
     app.use(cors())
     app.options(process.env.FRONTEND_URL, cors());
     app.use(express.json());
-const initApplication = async() => {
-    app.use(cors())
-    app.options(process.env.FRONTEND_URL, cors());
-    app.use(express.json());
 
-    const sequelize = new Sequelize(config.database, config.username, config.password, {
-        port: config.port,
-        host: config.host,
-        dialect: config.dialect,
-        dialectOptions: {
-            connectTimeout: 60000
-        }
-    });
     const sequelize = new Sequelize(config.database, config.username, config.password, {
         port: config.port,
         host: config.host,
@@ -43,71 +31,62 @@ const initApplication = async() => {
         .catch(err => {
             console.error('database synchronisation error :', err);
         });
-    sequelize.sync()
-        .then(() => {
-            console.log('database synchronised');
-        })
-        .catch(err => {
-            console.error('database synchronisation error :', err);
-        });
 
-    app.get("/", (req, res) => {
-        res.send("Welcome to my API");
-    })
+
     app.get("/", (req, res) => {
         res.send("Welcome to my API");
     })
 
     app.use("/api", router);
 
-    const typeDefs = `
-        type Article {
-            id : ID!
-            title : String
-            description : String
+    // const typeDefs = `
+    //     type Article {
+    //         id : ID!
+    //         title : String
+    //         description : String
 
-        }
-        type Response {
-            succes: Boolean!
-            message: String!
-        }
-        type Query {
-            sendMessage: Response!
-            getArticles: [Article]!
-            getArticle(id: ID!): Article!
-        }
-    `;
+    //     }
+    //     type Response {
+    //         succes: Boolean!
+    //         message: String!
+    //     }
+    //     type Query {
+    //         sendMessage: Response!
+    //         getArticles: [Article]!
+    //         getArticle(id: ID!): Article!
+    //     }
+    // `;
 
-    const resolvers = {
-        Query: {
-            sendMessage: () => {
-                return {
-                    succes: true,
-                    message: "Lorem ipsum"
-                }
-            },
-            getArticles: (parent, args, context, info) => {
-                return [
-                    {
-                        id: 1,
-                        title: "Article 1",
-                        description: "Description de l'article 1",
-                        date: "2021-01-01"
-                    }
-                ]
-            },
-            getArticle: (parent, args, context, info) => {
-                return {
-                    id: 1,
-                    title: "Article 1",
-                    description: "Description de l'article 1",
-                    date: "2021-01-01"
-                }
-            }
-        }
-    }
+    // const resolvers = {
+    //     Query: {
+    //         sendMessage: () => {
+    //             return {
+    //                 succes: true,
+    //                 message: "Lorem ipsum"
+    //             }
+    //         },
+    //         getArticles: (parent, args, context, info) => {
+    //             return [
+    //                 {
+    //                     id: 1,
+    //                     title: "Article 1",
+    //                     description: "Description de l'article 1",
+    //                     date: "2021-01-01"
+    //                 }
+    //             ]
+    //         },
+    //         getArticle: (parent, args, context, info) => {
+    //             return {
+    //                 id: 1,
+    //                 title: "Article 1",
+    //                 description: "Description de l'article 1",
+    //                 date: "2021-01-01"
+    //             }
+    //         }
+    //     }
+    // }
 
-    const serverGraphQl = new ApolloServer({
+    const serverGraphQL = new ApolloServer({
         // a passer : les types (typages des entités etdes resolvers)
         // resolvers: fonctions du CRUD
             // Querry: GET/READ
@@ -116,9 +95,9 @@ const initApplication = async() => {
         resolvers
     })
 
-    await serverGraphQl.start();
+    await serverGraphQL.start();
 
-    app.use(expressMiddleware(ServerGraphQL, {
+    app.use(expressMiddleware(serverGraphQL, {
         path:'/graphql'
     }));
 
@@ -126,5 +105,7 @@ const initApplication = async() => {
         console.log(`server launch on port ${process.env.PORT}`);
     });
 }
+
+initApplication();
 
 
