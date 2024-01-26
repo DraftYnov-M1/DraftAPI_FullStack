@@ -7,6 +7,8 @@ const config = require('./config/config.js')[process.env.NODE_ENV || 'developmen
 const router = require('./routes/index.js');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const typeDefs =require('./graphql/schemas');
+const resolvers =require('./graphql/resolvers');
 
 const initApplication = async() => {
     app.use(cors())
@@ -35,34 +37,6 @@ const initApplication = async() => {
     })
 
     app.use("/api", router);
-
-    const typeDefs = `
-        type Article {
-            id : ID!
-            title: String
-            description: String
-            date: String
-        }
-        type Query {
-            getArticles: [Article]!
-            getArticle(id: ID!): Article!
-        }
-    `;
-
-    const resolvers = {
-        Query: {
-            getArticles: (parent, args, context, info) => {
-                return [
-                    {
-                        id:1,
-                        title: "Article 1",
-                        description: "Description de l'article 1",
-                        date: "2021-01-01"
-                    }
-                ]
-            }
-        }
-    }
 
     const serverGraphQL = new ApolloServer({
         //à passer : les types (typagesdes entités et des resolvers (controllers))
