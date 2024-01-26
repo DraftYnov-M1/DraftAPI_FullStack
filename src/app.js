@@ -7,12 +7,26 @@ const config = require('./config/config.js')[process.env.NODE_ENV || 'developmen
 const router = require('./routes/index.js');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const typeDefs =require('./graphql/schemas');
+const resolvers =require('./graphql/resolvers');
 
 const initApplication = async() => {
     app.use(cors())
     app.options(process.env.FRONTEND_URL, cors());
     app.use(express.json());
+const initApplication = async() => {
+    app.use(cors())
+    app.options(process.env.FRONTEND_URL, cors());
+    app.use(express.json());
 
+    const sequelize = new Sequelize(config.database, config.username, config.password, {
+        port: config.port,
+        host: config.host,
+        dialect: config.dialect,
+        dialectOptions: {
+            connectTimeout: 60000
+        }
+    });
     const sequelize = new Sequelize(config.database, config.username, config.password, {
         port: config.port,
         host: config.host,
@@ -29,7 +43,17 @@ const initApplication = async() => {
         .catch(err => {
             console.error('database synchronisation error :', err);
         });
+    sequelize.sync()
+        .then(() => {
+            console.log('database synchronised');
+        })
+        .catch(err => {
+            console.error('database synchronisation error :', err);
+        });
 
+    app.get("/", (req, res) => {
+        res.send("Welcome to my API");
+    })
     app.get("/", (req, res) => {
         res.send("Welcome to my API");
     })
