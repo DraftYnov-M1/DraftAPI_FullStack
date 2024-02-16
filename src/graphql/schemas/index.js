@@ -6,13 +6,22 @@ const typeDefs = `
             date: String
         }
         type Response {
-            succes : Boolean
+            success : Boolean!
             message: String!
         }
+        input ArticleInput {
+            title: String
+            description: String
+            date: String
+        }
         type Query {
-            sendMessage : Response!
             getArticles: [Article]!
             getArticle(id: ID!): Article
+        }
+        type Mutation {
+            createArticle(article:ArticleInput!): Article
+            updateArticle(id: ID!, article: ArticleInput): Article!
+            deleteArticle(id: ID!): Response!
         }
     `;
 
