@@ -53,7 +53,13 @@ const initApplication = async() => {
     await serverGraphQL.start();
 
     app.use(expressMiddleware(serverGraphQL, {
-        path: '/graphql'
+        path: '/graphql',
+        context: ({ req }) => {
+            console.log("contexte")
+            return {
+                // user: // token déchiffré pour récupérer les infos de l'utilisateur
+            }
+        }
     }));
 
     app.listen(process.env.PORT, () => {
