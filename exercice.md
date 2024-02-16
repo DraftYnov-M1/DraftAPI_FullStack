@@ -9,11 +9,6 @@ sur Articles :
     - mail
     - password
     - isAdmin
-    - dateBirth
-    - city
-    - address
-    - zipcode
-    - phone
 
 - Typer dans graphQl le model User
 - Créer un resolver registerUser() pour faire l'inscription, qui doit être fonctionnel
