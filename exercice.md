@@ -10,11 +10,6 @@
     - mail
     - password
     - isAdmin
-    - dateBirth
-    - city
-    - address
-    - zipcode
-    - phone
 
 - [X] Typer dans graphQl le model User
 - [X] Créer un resolver registerUser() pour faire l'inscription, qui doit être fonctionnel

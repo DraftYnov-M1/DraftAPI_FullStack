@@ -1,19 +1,20 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => { 
     const User = sequelize.define('User', {
-        firstname : DataTypes.STRING,
-        lastname: DataTypes.STRING,
+        firstName: DataTypes.STRING,
+        lastName: DataTypes.STRING,
         mail: DataTypes.STRING,
         password: DataTypes.STRING,
-        isadmin: DataTypes.BOOLEAN,
-        datebirth: DataTypes.STRING,
-        city: DataTypes.STRING,
-        address: DataTypes.STRING,
-        zipcode: DataTypes.INTEGER,
-        phone: DataTypes.STRING,
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        }
     }, {
-        timestamps: false,
-        modelName: 'User', // specify the singular model name
+        // nom de la table en base de données
         tableName: 'users',
+        //Garder la nomination de la table sans la modifier
+        freezeTableName: true,
+        // Utiliser la colonne createdAt et updatedAt
+        timestamps: true
     });
     return User;
-};
+}

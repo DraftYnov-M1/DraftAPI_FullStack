@@ -5,43 +5,26 @@ const typeDefs = `
             description: String
             date: String
         }
-
-        input ArticleInput {
-            title: String
-            description: String
-            date: String
-        }
-
         type User {
-            id: ID!
-            firstname: String
-            lastname: String
+            id : ID!
+            firstName: String
+            lastName: String
             mail: String
             password: String
-            isadmin: Boolean
-            datebirth: String
-            city: String
-            address: String
-            zipcode: Int
-            phone: String
+            isAdmin: Boolean
         }
-
-        input UserInput {
-            firstname: String
-            lastname: String
-            mail: String
-            password: String
-            isadmin: Boolean
-            datebirth: String
-            city: String
-            address: String
-            zipcode: Int
-            phone: String
-        }
-
         type Response {
             success : Boolean!
             message: String!
+        }
+        type JWT {
+            token: String!
+        }
+        input UserInput {
+            firstName: String!
+            lastName: String!
+            mail: String!
+            password: String!
         }
         input ArticleInput {
             title: String
@@ -56,6 +39,7 @@ const typeDefs = `
             createArticle(article:ArticleInput!): Article
             updateArticle(id: ID!, article: ArticleInput): Article!
             deleteArticle(id: ID!): Response!
+            registerUser(user:UserInput!): JWT!
         }
     `;
 

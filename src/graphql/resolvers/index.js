@@ -1,6 +1,7 @@
 const resolvers = {
     Query: {
         getArticles: async (parent, args, context, info) => {
+            console.log(context);
             const articles = await db.Article.findAll();
             if (articles.length === 0) {
                 const error = new Error("No articles found");
@@ -15,7 +16,7 @@ const resolvers = {
         }
     },
     Mutation: {
-        createArticle: async (parent, args, context, info) => { 
+        createArticle: async (parent, args, context, info) => {
             const { title, description, date } = args.article;
             const article = await db.Article.create({ title, description, date });
             return article;
@@ -51,7 +52,23 @@ const resolvers = {
                 message: "Article deleted",
                 success: true
             }
-        }
+        },
+        registerUser: async (parent, args, context, info) => {
+            //aller chercher les inputs du resolver / les destructurer
+            // Hasher le password récupéré de puis les inputs(bcrypt, argon2 etc...)
+            // CRéer une instance de user avec les inputs et le password hashé
+            // Sauvegarder l'instance de user en base de données
+            // Si la sauvegarde est un succès, générer un token JWT (avec la librairy jsonwebtoken => .sign)
+            // Retourner le token
+            // Clean coding : séparer les fonctions de hashage et de génération de token
+        },
+        // getMe : async (parent, args, context, info) => {
+            // Récupérer le token depuis le context
+            // Vérifier la validité du token // à faire avec la librairie jsonwebtoken (.verify) + dans une fonction réutilisable
+            // Récupérer l'id de l'utilisateur depuis le token
+            // Récupérer l'utilisateur depuis l'id
+            // Retourner l'utilisateur
+        // }
     }
 
 
