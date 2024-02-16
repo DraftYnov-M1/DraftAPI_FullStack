@@ -57,7 +57,7 @@ const initApplication = async() => {
         context: ({ req }) => {
             console.log("contexte")
             return {
-                // user: // token déchiffré pour récupérer les infos de l'utilisateur
+              user: "test user"
             }
         }
     }));
