@@ -7,6 +7,7 @@ const config = require('./config/config.js')[process.env.NODE_ENV || 'developmen
 const router = require('./routes/index.js');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const db = require("./models");
 const typeDefs =require('./graphql/schemas');
 const resolvers =require('./graphql/resolvers');
 
@@ -31,6 +32,8 @@ const initApplication = async() => {
         .catch(err => {
             console.error('database synchronisation error :', err);
         });
+    
+    await db.sequelize.sync();
 
     app.get("/", (req, res) => {
         res.send("Welcome to my API");
@@ -50,7 +53,13 @@ const initApplication = async() => {
     await serverGraphQL.start();
 
     app.use(expressMiddleware(serverGraphQL, {
-        path: '/graphql'
+        path: '/graphql',
+        context: ({ req }) => {
+            console.log("contexte")
+            return {
+                // user: // token déchiffré pour récupérer les infos de l'utilisateur
+            }
+        }
     }));
 
     app.listen(process.env.PORT, () => {
