@@ -40,20 +40,22 @@ const typeDefs = `
         }
 
         type Response {
-            succes : Boolean
+            success : Boolean!
             message: String!
         }
-
+        input ArticleInput {
+            title: String
+            description: String
+            date: String
+        }
         type Query {
             getArticles: [Article]!
             getArticle(id: ID!): Article
         }
-
         type Mutation {
-            createArticle(title: String!, description: String!, date: String!): Article!
-            deleteArticle(id: ID!): Article
-            updateArticle(id: ID!, title: String!, description: String!, date: String!): Article!   
-            registerUser(firstname: String!, lastname: String!, mail: String!, password: String!, isadmin: Boolean, datebirth: String, city: String, address: String, zipcode: Int, phone: String): User
+            createArticle(article:ArticleInput!): Article
+            updateArticle(id: ID!, article: ArticleInput): Article!
+            deleteArticle(id: ID!): Response!
         }
     `;
 
