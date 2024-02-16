@@ -1,15 +1,14 @@
-# Exercice 1 
-## Articles : 
-- [X] Modifier les deux resolvers (getArticle, getArticles) pour communiquer avec l'ORM
-- [X] Ajouter 3 resolvers : deleteArticle, updateArticle, createArticle fonctionnels
+#exercice 1 
+sur Articles : 
+- Modifier les deux resolvers (getArticle, getArticles) pour communiquer avec l'ORM
+- Ajouter 3 resolvers : deleteArticle, updateArticle, createArticle fonctionnels
 
-## Users :
-- [X] Créer une nouvelle table / model User avec les propriétés : 
+- Créer une nouvelle table / model User avec les propriétés : 
     - firstName
     - lastName
     - mail
     - password
     - isAdmin
 
-- [X] Typer dans graphQl le model User
-- [X] Créer un resolver registerUser() pour faire l'inscription, qui doit être fonctionnel
+- Typer dans graphQl le model User
+- Créer un resolver registerUser() pour faire l'inscription, qui doit être fonctionnel
