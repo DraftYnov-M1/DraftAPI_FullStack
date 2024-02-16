@@ -5,9 +5,23 @@ const typeDefs = `
             description: String
             date: String
         }
+        type User {
+            id : ID!
+            firstName: String
+            lastName: String
+            mail: String
+            password: String
+            isAdmin: Boolean
+        }
         type Response {
             success : Boolean!
             message: String!
+        }
+        input UserInput {
+            firstName: String
+            lastName: String
+            mail: String
+            password: String
         }
         input ArticleInput {
             title: String

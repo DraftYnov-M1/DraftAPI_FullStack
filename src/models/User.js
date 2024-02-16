@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
         lastName: DataTypes.STRING,
         mail: DataTypes.STRING,
         password: DataTypes.STRING,
-        isAdmin: DataTypes.BOOLEAN
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        }
     }, {
         // nom de la table en base de données
         tableName: 'users',
