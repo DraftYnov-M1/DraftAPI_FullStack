@@ -40,6 +40,7 @@ const typeDefs = `
             updateArticle(id: ID!, article: ArticleInput): Article!
             deleteArticle(id: ID!): Response!
             registerUser(user:UserInput!): JWT!
+            getMe:User!
         }
     `;
 
