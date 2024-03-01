@@ -1,6 +1,7 @@
 const db = require("../../models");
 const cryptPassword = require("../../helpers/cryptPassword");
 const generateToken = require("../../helpers/generateToken");
+const {ensureUserIsLogged} = require("../validators");
 
 const resolvers = {
     Query: {
@@ -40,6 +41,7 @@ const resolvers = {
             return article;
         },
         deleteArticle: async (parent, args, content) => {
+            ensureUserIsLogged(context);
             const { id } = args;
             const article = await db.Article.destroy({
                 where: {
@@ -86,17 +88,16 @@ const resolvers = {
             // Si la sauvegarde est un succès, générer un token JWT (avec la librairy jsonwebtoken => .sign)
             
         },
-        getMe : async (parent, args, context, info) => {
+        getMe: async (parent, args, context, info) => {
+            ensureUserIsLogged(context);
+
+            const user = await db.User.findByPk(context.user.id);
+            return user;
             // Récupérer le token décodé depuis le context
-            const user = context.user.id;
-
-            if (!user) {
-                const error = new Error("User not found");
-                error.extensions.code = "NOT_FOUND";
-                return error;
-            } 
-
-            return await db.User.findByPk(user);
+            // Vérifier la validité du token // à faire avec la librairie jsonwebtoken (.verify) + dans une fonction réutilisable
+            // Récupérer l'id de l'utilisateur depuis le token
+            // Récupérer l'utilisateur depuis l'id
+            // Retourner l'utilisateur
         }
     }
 }

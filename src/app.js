@@ -9,9 +9,8 @@ const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const db = require("./models");
 const typeDefs =require('./graphql/schemas');
-const resolvers =require('./graphql/resolvers');
+const resolvers = require('./graphql/resolvers');
 const verifyToken = require('./helpers/verifyToken');
-const { type } = require('os');
 
 const initApplication = async() => {
     app.use(cors())
@@ -66,7 +65,7 @@ const initApplication = async() => {
             }
 
             return {
-                user : user
+              user: "test user"
             }
         }
     }));
