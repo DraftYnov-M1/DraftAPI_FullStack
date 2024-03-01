@@ -10,6 +10,8 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const db = require("./models");
 const typeDefs =require('./graphql/schemas');
 const resolvers =require('./graphql/resolvers');
+const verifyToken = require('./helpers/verifyToken');
+const { type } = require('os');
 
 const initApplication = async() => {
     app.use(cors())
@@ -55,9 +57,16 @@ const initApplication = async() => {
     app.use(expressMiddleware(serverGraphQL, {
         path: '/graphql',
         context: ({ req }) => {
-            console.log("contexte")
+            console.log(context);
+            const token = req.headers.authorization?.split(" ")[1];
+            let user = null;
+
+            if (token && typeof token === "string") {
+                user = verifyToken(token);
+            }
+
             return {
-              user: "test user"
+                user : user
             }
         }
     }));

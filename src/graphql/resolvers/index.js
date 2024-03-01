@@ -86,16 +86,19 @@ const resolvers = {
             // Si la sauvegarde est un succès, générer un token JWT (avec la librairy jsonwebtoken => .sign)
             
         },
-        // getMe : async (parent, args, context, info) => {
+        getMe : async (parent, args, context, info) => {
             // Récupérer le token décodé depuis le context
-            // Vérifier la validité du token // à faire avec la librairie jsonwebtoken (.verify) + dans une fonction réutilisable
-            // Récupérer l'id de l'utilisateur depuis le token
-            // Récupérer l'utilisateur depuis l'id
-            // Retourner l'utilisateur
-        // }
+            const user = context.user.id;
+
+            if (!user) {
+                const error = new Error("User not found");
+                error.extensions.code = "NOT_FOUND";
+                return error;
+            } 
+
+            return await db.User.findByPk(user);
+        }
     }
-
-
 }
 
 module.exports = resolvers;
