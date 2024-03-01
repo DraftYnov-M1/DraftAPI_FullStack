@@ -17,7 +17,7 @@ const resolvers = {
         getArticle: (parent, args, context, info) => {
             const article = db.Article.findByPk(args.id);
             return article;
-        }
+        },
     },
     Mutation: {
         createArticle: async (parent, args, context, info) => {

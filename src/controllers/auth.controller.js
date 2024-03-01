@@ -34,7 +34,6 @@ module.exports = {
         
     }, 
     getMe: async(req, res) => {
-        console.log(req.user, "req.user");
         try {
             const user = await db.User.findByPk(req.user.id);
             if (user) {
