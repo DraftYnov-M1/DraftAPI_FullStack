@@ -59,13 +59,10 @@ const initApplication = async() => {
             // "Bearer ertyuiop^poiuytfdsdfgyuiop"
             let user = null;
             const token = req.headers.authorization?.split(' ')[1];
-            console.log(token);
             // ["Bearer", "ertyuiop^poiuytfdsdfgyuiop"]
             if (token && typeof token === "string") { 
                 user = verifyToken(token);
-                console.log(user, "user token");
             }
-            console.log(user, "user before return ");
             return {
                 user: user
             }

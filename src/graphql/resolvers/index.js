@@ -1,6 +1,7 @@
 const db = require("../../models");
 const cryptPassword = require("../../helpers/cryptPassword");
 const generateToken = require("../../helpers/generateToken");
+const {ensureUserIsLogged} = require("../validators");
 
 const resolvers = {
     Query: {
@@ -40,6 +41,7 @@ const resolvers = {
             return article;
         },
         deleteArticle: async (parent, args, content) => {
+            ensureUserIsLogged(context);
             const { id } = args;
             const article = await db.Article.destroy({
                 where: {
@@ -87,8 +89,10 @@ const resolvers = {
             
         },
         getMe: async (parent, args, context, info) => {
-            // Controller rest full : 
-            const user = await db.User.findByPk(req.user.id);
+            ensureUserIsLogged(context);
+
+            const user = await db.User.findByPk(context.user.id);
+            return user;
             // Récupérer le token décodé depuis le context
             // Vérifier la validité du token // à faire avec la librairie jsonwebtoken (.verify) + dans une fonction réutilisable
             // Récupérer l'id de l'utilisateur depuis le token
