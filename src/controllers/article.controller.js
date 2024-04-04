@@ -4,10 +4,11 @@ module.exports = {
 
     // controller pour récupérer tous les articles
     getArticles: async (req, res) => {
-
         try {
             // on récupère tous les articles avec la méthode de sequelize findAll()
-            const articles = await db.Article.findAll();
+            const articles = await db.Article.findAll({
+                limit: JSON.parse(req.query.limit) || 6,
+            });
             if (articles.length === 0) { 
                 return res.status(404).json({
                     success: false,
