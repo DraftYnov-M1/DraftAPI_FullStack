@@ -6,8 +6,11 @@ const ensureUserIsLogged = require("../validators");
 const resolvers = {
     Query: {
         getArticles: async (parent, args, context, info) => {
-            console.log(context);
-            const articles = await db.Article.findAll();
+            const articles = await db.Article.findAll(
+                {
+                    limit: args.filters.limit || 6,
+                }
+            );
             if (articles.length === 0) {
                 const error = new Error("No articles found");
                 error.extensions.code = "NOT_FOUND";

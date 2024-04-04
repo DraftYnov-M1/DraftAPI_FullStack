@@ -31,8 +31,11 @@ const typeDefs = `
             description: String
             date: String
         }
+        input FiltersInput {
+            limit: Int
+        }
         type Query {
-            getArticles: [Article]!
+            getArticles(filters: FiltersInput): [Article]!
             getArticle(id: ID!): Article
         }
         type Mutation {
