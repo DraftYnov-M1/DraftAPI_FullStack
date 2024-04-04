@@ -48,7 +48,8 @@ const initApplication = async() => {
             // Query : GET / READ
         // Mutation : POST / CREATE / PUT / UPDATE / DELETE
         typeDefs,
-        resolvers
+        resolvers,
+        introspection: true,  // Enable introspection
     })
 
     await serverGraphQL.start();

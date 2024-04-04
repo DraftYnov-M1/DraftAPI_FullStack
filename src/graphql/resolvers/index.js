@@ -1,7 +1,7 @@
 const db = require("../../models");
 const cryptPassword = require("../../helpers/cryptPassword");
 const generateToken = require("../../helpers/generateToken");
-const {ensureUserIsLogged} = require("../validators");
+const ensureUserIsLogged = require("../validators");
 
 const resolvers = {
     Query: {
