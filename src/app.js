@@ -48,7 +48,7 @@ const initApplication = async() => {
             // Query : GET / READ
         // Mutation : POST / CREATE / PUT / UPDATE / DELETE
         typeDefs,
-        resolvers
+        resolvers,
     })
 
     await serverGraphQL.start();
@@ -56,10 +56,9 @@ const initApplication = async() => {
     app.use(expressMiddleware(serverGraphQL, {
         path: '/graphql',
         context: ({ req }) => {
-            // "Bearer ertyuiop^poiuytfdsdfgyuiop"
             let user = null;
-            const token = req.headers.authorization?.split(' ')[1];
-            // ["Bearer", "ertyuiop^poiuytfdsdfgyuiop"]
+            console.log(req.headers.authorization, "HEADERS");
+            const token = req.headers.authorization?.split(' ')[1] || null;
             if (token && typeof token === "string") { 
                 user = verifyToken(token);
             }

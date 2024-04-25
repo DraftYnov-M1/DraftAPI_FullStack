@@ -25,11 +25,13 @@ const resolvers = {
     },
     Mutation: {
         createArticle: async (parent, args, context, info) => {
+            ensureUserIsLogged(context);
             const { title, description, date } = args.article;
             const article = await db.Article.create({ title, description, date });
             return article;
         },
         updateArticle: async (parent, args, context, info) => {
+            ensureUserIsLogged(context);
             const { title, description, date } = args.article;
             const article = await db.Article.findByPk(args.id);
             if (!article) {
@@ -63,6 +65,7 @@ const resolvers = {
             }
         },
         registerUser: async (parent, args, context, info) => {
+            console.log(args, "ARGS");
             //aller chercher les inputs du resolver / les destructurer
             const { mail, password, firstName, lastName } = args.user;
             // Hasher le password récupéré de puis les inputs(bcrypt, argon2 etc...)
@@ -93,14 +96,8 @@ const resolvers = {
         },
         getMe: async (parent, args, context, info) => {
             ensureUserIsLogged(context);
-
             const user = await db.User.findByPk(context.user.id);
             return user;
-            // Récupérer le token décodé depuis le context
-            // Vérifier la validité du token // à faire avec la librairie jsonwebtoken (.verify) + dans une fonction réutilisable
-            // Récupérer l'id de l'utilisateur depuis le token
-            // Récupérer l'utilisateur depuis l'id
-            // Retourner l'utilisateur
         }
     }
 }
