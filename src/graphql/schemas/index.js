@@ -4,6 +4,12 @@ const typeDefs = `
             title: String
             description: String
             date: String
+            categories: Category
+        }
+        type Category {
+            id : ID!
+            name: String
+            articles: [Article]
         }
         type User {
             id : ID!
@@ -30,6 +36,7 @@ const typeDefs = `
             title: String
             description: String
             date: String
+            category: ID
         }
         input FiltersInput {
             limit: Int
@@ -37,11 +44,15 @@ const typeDefs = `
         type Query {
             getArticles(filters: FiltersInput): [Article]!
             getArticle(id: ID!): Article
+            getCategory(id: ID!): Category
+            getCategories: [Category]!
         }
         type Mutation {
             createArticle(article:ArticleInput!): Article
+            createCategory(name: String!, articles:[ID]): Category
             updateArticle(id: ID!, article: ArticleInput): Article!
             deleteArticle(id: ID!): Response!
+            loginUser(mail: String!, password: String!): JWT!
             registerUser(user:UserInput!): JWT!
             getMe:User!
         }

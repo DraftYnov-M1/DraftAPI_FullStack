@@ -49,7 +49,7 @@ const initApplication = async() => {
         // Mutation : POST / CREATE / PUT / UPDATE / DELETE
         typeDefs,
         resolvers,
-        introspection: true,  // Enable introspection
+        // introspection: true,  // Enable introspection
     })
 
     await serverGraphQL.start();
@@ -57,7 +57,6 @@ const initApplication = async() => {
     app.use(expressMiddleware(serverGraphQL, {
         path: '/graphql',
         context: ({ req }) => {
-            console.log(context);
             const token = req.headers.authorization?.split(" ")[1];
             let user = null;
 

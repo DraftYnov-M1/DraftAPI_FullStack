@@ -8,5 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         modelName: 'Article', // specify the singular model name
         tableName: 'articles',
     });
+    Article.associate = (models) => {
+        Article.belongsToMany(models.Category, {
+            foreignKey: 'articleId',
+            as: 'categories',
+            through: 'categoriesArticles',
+        });
+    };
     return Article;
 };

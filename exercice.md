@@ -12,3 +12,20 @@ sur Articles :
 
 - Typer dans graphQl le model User
 - Créer un resolver registerUser() pour faire l'inscription, qui doit être fonctionnel
+
+#exercice 2
+
+Creer un model Category avec les propriétés :
+- name
+- id
+
+Relation Article sur la Category 
+- Definir la relation : un article peut avoir plusieurs categories
+
+Créer un type dans graphql 
+Créer un resolver pour les categories
+- Ameliorer le update/ create
+- creer resolver "createCateory"
+- sur les queries :
+    - si je recupere mes categories (getCategories), je dois avoir pour chaque categorie la liste des articles associés
+    - inversement getarticles doit me retourner les categories associées  

@@ -2,6 +2,7 @@ const db = require("../../models");
 const cryptPassword = require("../../helpers/cryptPassword");
 const generateToken = require("../../helpers/generateToken");
 const ensureUserIsLogged = require("../validators");
+const Category = require("../../models/Category");
 
 const resolvers = {
     Query: {
@@ -18,17 +19,58 @@ const resolvers = {
             }
             return articles;
         },
+
         getArticle: (parent, args, context, info) => {
             const article = db.Article.findByPk(args.id);
             return article;
         },
+
+        getCategories: async (parent, args, context, info) => {
+            const categories = await db.Category.findAll();
+            return categories;
+        },
+
+        getCategory: async (parent, args, context, info) => {
+            const category = await db.Category.findByPk(args.id);
+            return category;
+        }
     },
     Mutation: {
         createArticle: async (parent, args, context, info) => {
-            const { title, description, date } = args.article;
-            const article = await db.Article.create({ title, description, date });
+            const { title, description, date, category } = args.article;
+            const article = await db.Article.create({ title, description, date, category});
             return article;
         },
+
+        createCategory: async (parent, args, context, info) => {
+            const { name, articles } = args;
+
+            try {
+                const category = await db.Category.create({ name });
+                console.log(category);
+                for (const articleId of articles) {
+                    const article = await db.Article.findByPk(articleId);
+                    console.log(article);
+                    if (!article) {
+                        return {
+                            message: "Article not found",
+                            success: false
+                        }
+                    }
+                    // nouvelle methode pour ajouter une catégorie à un article
+                    await article.addCategory(category);
+                }
+                console.log(category);
+                return category;
+
+            } catch (error) {
+                return {
+                    message: error.message,
+                    success: false
+                }
+            }
+        },
+
         updateArticle: async (parent, args, context, info) => {
             const { title, description, date } = args.article;
             const article = await db.Article.findByPk(args.id);
@@ -89,7 +131,32 @@ const resolvers = {
                 }
             }
             // Si la sauvegarde est un succès, générer un token JWT (avec la librairy jsonwebtoken => .sign)
-            
+        },
+        loginUser: async (parent, args, context, info) => {
+            const { mail, password } = args.user;
+
+            const user = await db.User.findOne({
+                where: {
+                    mail: mail
+                }
+            });
+
+            if (!user) {
+                const error = new Error("User not found");
+                return error;
+            } else {
+                const isValidPassword = await user.checkPassword(password);
+                if (!isValidPassword) {
+                    const error = new Error("Invalid password");
+                    return error;
+                } else {
+                    const token = generateToken({ id: user.id });
+                    return {
+                        token: token,
+                        success: true
+                    }
+                }
+            }
         },
         getMe: async (parent, args, context, info) => {
             ensureUserIsLogged(context);
