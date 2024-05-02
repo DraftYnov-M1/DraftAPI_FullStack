@@ -36,7 +36,10 @@ const commonConfig = {
   database: DB_NAME,
   host: DB_HOST,
   port: DB_PORT,
-  dialect: "mysql"
+  dialect: "mysql",
+  define: {
+    timestamps: false
+  }
 }
 
 // Export de la configuration

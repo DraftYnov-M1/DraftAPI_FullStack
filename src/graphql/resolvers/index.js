@@ -5,10 +5,27 @@ const ensureUserIsLogged = require("../validators");
 
 const resolvers = {
     Query: {
+        getCategories: async (parent, args, context, info) => { 
+            const categories = await db.Category.findAll({
+                include: [
+                    {
+                        model: db.Article,
+                        as: "articles"
+                    }
+                ]
+            });
+            return categories;
+        },
         getArticles: async (parent, args, context, info) => {
             const articles = await db.Article.findAll(
                 {
                     limit: args.filters.limit || 6,
+                    include: [
+                        {
+                            model: db.Category,
+                            as: "categories",
+                        }
+                    ] 
                 }
             );
             if (articles.length === 0) {
