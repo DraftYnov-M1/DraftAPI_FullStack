@@ -4,8 +4,15 @@ module.exports = (sequelize, DataTypes) => {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
         date: DataTypes.DATE,
-    }, {
-        timestamps: false
+        // createdAt: new Date(),
+        // updatedAt: new Date(),
     });
+    Article.associate = (models) => {
+        Article.belongsToMany(models.Category, {
+            through: 'categoriesArticles',
+            as: 'categories',
+            foreignKey: 'articleId'
+        });
+    };
     return Article;
 };

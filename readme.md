@@ -1,13 +1,14 @@
-# LOCALSTORAGE vs COOKIES 
+## Exercie : 
 
-- Capacité de stockage 
-    -> Cookies : 4ko
-    -> LocalStorage : 5 - 10mo
-- Sécurité : 
-    ->cookies : 
-        - dans requête HTTP (kill à la fermeture / durée de vie)
-        - https only 
-        - Peuvent être utilisé côté serveur
-    ->LS: 
-        - persiste tant que tu n'as pas explicitement supprimé dans le navigateur
-        - Accessible côté client (+ vulnérable)
+- Créer un model Category 
+avec un champ name / id
+- Relation Article sur la Category
+Définir la relation : un article peut appartenir à plusieurs catégories
+
+- Créer le type dans graphql 
+- Créer les resolvers suivants : 
+    - Améliorer le update / create 
+    - créer un resolver "createCategory"
+    - Sur les queries : 
+        - Si je récupère mes catégories (getCategories), je dois avec pour chaque catégorie la liste des articles, 
+        - Inversement : getArticles : On doit avoir pour chaque article toutes les catégories affectées

@@ -30,6 +30,32 @@ const resolvers = {
             const article = await db.Article.create({ title, description, date });
             return article;
         },
+        createCategory: async (parent, args, context, info) => { 
+            const { name, articles } = args;
+            try {
+                const category = await db.Category.create({ name });
+                // Si des articles sont passés en paramètre, les ajouter à la catégorie
+                for (const articleId of articles) {
+                    const article = await db.Article.findByPk(articleId);
+                    if(!article) {
+                        return {
+                            message: "Article not found",
+                            success: false
+                        }
+                    }
+                    // nouvelle méthode disponible sur l'instance de article
+                    await article.addCategories(category);
+                }
+                return category;
+            }
+            catch (err) {
+                console.log(err);
+                return {
+                    message: "Category not created",
+                    success: false
+                }
+            }
+        },
         updateArticle: async (parent, args, context, info) => {
             ensureUserIsLogged(context);
             const { title, description, date } = args.article;
